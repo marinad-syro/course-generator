@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ lesson.title }}</title>
+</head>
+<body>
+    <h1>{{ lesson.name }}</h1>
+    <p>{{ lesson.content }}</p>
+    <a href="{% url 'lesson_list' lesson.module.id %}">← Back to Lessons</a><br>
+    <a href ="{% url 'home' %}">Back to Home</a>
+</body>
+</html>
