@@ -6,5 +6,6 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("lrn_org.urls")),  
+    path("", include("lrn_org.urls")), 
+    path("api/", include("api.urls")), 
 ]
