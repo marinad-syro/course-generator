@@ -1,0 +1,173 @@
+/* FirstCoursePage.css */
+
+.first-course-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #FFF;
+  overflow: hidden;
+  padding-top: 120px; /* Navbar height */
+  box-sizing: border-box;
+}
+
+/* Reusing background ellipses from HomePage.css */
+.bg-ellipse {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.bg-ellipse-1 {
+  width: 622px;
+  height: 606px;
+  background: #15472A;
+  left: -129px;
+  top: 400px;
+}
+
+.bg-ellipse-2 {
+  width: 514px;
+  height: 514px;
+  background: #471532;
+  right: -150px;
+  top: 150px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 240px); /* Full height minus navbar and footer */
+  padding: 20px;
+}
+
+.explore-box {
+  background: rgba(218, 212, 224, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 50px 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.explore-box h1 {
+  font-family: 'Inria Serif', serif;
+  font-size: 28px;
+  color: #471532;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.explore-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #471532;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 18px;
+  color: #471532;
+  text-align: center;
+  width: 300px;
+  padding: 10px;
+}
+
+.explore-input::placeholder {
+  color: rgba(71, 21, 50, 0.6);
+}
+
+.explore-input:focus {
+  outline: none;
+}
+
+.create-course-button {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFF;
+  background: #471532;
+  padding: 15px 35px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  margin-top: 20px;
+}
+
+.create-course-button:hover {
+  transform: translateY(-2px);
+}
+
+.course-footer {
+  width: 100%;
+  background: rgba(218, 212, 224, 0.3);
+  padding: 30px 80px;
+  box-sizing: border-box;
+  border-top: 1px solid #471532;
+  margin-top: auto;
+}
+
+.course-footer h2 {
+  font-family: 'Libre Caslon Text', serif;
+  font-size: 24px;
+  color: #471532;
+  margin: 0 0 10px 0;
+}
+
+.course-footer p {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 14px;
+  color: #471532;
+  margin: 0;
+}
+
+.error-message {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.pathway-results {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+}
+
+.pathway-results h2 {
+  font-family: 'Inria Serif', serif;
+  font-size: 24px;
+  color: #15472A;
+  text-align: center;
+}
+
+.module {
+  margin-bottom: 20px;
+}
+
+.module h3 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 20px;
+  color: #471532;
+}
+
+.module ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.module li {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 16px;
+  color: #471532;
+  margin-bottom: 5px;
+}
+

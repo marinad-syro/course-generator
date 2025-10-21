@@ -1,5 +1,5 @@
 from . import views
-from django.urls import path
+from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
@@ -8,7 +8,9 @@ urlpatterns = [
     path('modules/<int:module_id>/lessons/', views.lesson_list_api),
     path('lessons/<int:lesson_id>/', views.lesson_detail_api),
     path("generate-pathway/", views.generate_pathway, name="generate_pathway"),
+    path("generate-pathway-json/", views.generate_pathway_json, name="generate_pathway_json"),
     path("generate-lesson-content/<int:lesson_id>/", views.generate_lesson_content, name="generate_lesson_content"),
+    path("feedback/", include("feedback.urls"))
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

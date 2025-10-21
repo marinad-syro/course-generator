@@ -10,7 +10,8 @@ urlpatterns = [
     path("", include("lrn_org.urls")), 
     path("api/", include("api.urls")), 
     path('api/users/', include('users.urls')),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),   # login
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),   
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    re_path(r'^app/.*$', TemplateView.as_view(template_name="index.html"))
+    re_path(r'^app/.*$', TemplateView.as_view(template_name="index.html")),
+    path("feedback/", include("feedback.urls")),
 ]

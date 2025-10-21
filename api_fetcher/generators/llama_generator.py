@@ -3,6 +3,7 @@ import json
 from main_project import settings
 
 def gen_pathway(area):
+    client = replicate.Client(api_token=settings.REPLICATE_API_TOKEN)
     input_data = {
         "prompt":
             f"Create a structured learning pathway for the area '{area}'.\n"
@@ -29,7 +30,7 @@ def gen_pathway(area):
         ),
     }
 
-    output = replicate.run(
+    output = client.run(
         "meta/meta-llama-3-8b-instruct",
         input=input_data
     )

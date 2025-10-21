@@ -8,6 +8,7 @@ from api_fetcher.generators.llama_generator import gen_pathway, gen_lesson_conte
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
+from django.conf import settings
 
 @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST', 'DELETE'])
@@ -135,6 +136,19 @@ def generate_pathway(request):
 
     serializer = AreaSerializer(area)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def generate_pathway_json(request):
+    print(f"REPLICATE_API_TOKEN from settings: {settings.REPLICATE_API_TOKEN}") # Temporary debug print
+    area_name = request.data.get("area")
+    if not area_name:
+        return Response({"error": "Area is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        data = gen_pathway(area_name)
+        return Response(data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
