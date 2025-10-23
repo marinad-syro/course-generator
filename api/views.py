@@ -150,19 +150,17 @@ def generate_pathway_json(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@permission_classes([IsAuthenticated])
 @api_view(['POST'])
-def generate_lesson_content(request,lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
+def generate_lesson_content(request):
+    area = request.data.get("area")
+    module = request.data.get("module")
+    topic = request.data.get("topic")
 
-    #generate content
-    topic = lesson.name
-    generated_content = gen_lesson_content(topic)
+    if not all([area, module, topic]):
+        return Response({"error": "Area, module, and topic are required"}, status=status.HTTP_400_BAD_REQUEST)
 
-    #save to DB
-    lesson.content = generated_content
-    lesson.save()
-
-    #return response
-    serializer = LessonSerializer(lesson)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+        generated_content = gen_lesson_content(topic=topic, area=area, module=module)
+        return Response({"content": generated_content}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

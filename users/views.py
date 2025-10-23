@@ -15,12 +15,12 @@ def get_tokens_for_user(user):
     }
 
 @api_view(['POST'])
-def signup(request):
+def register_user(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
         tokens = get_tokens_for_user(user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(tokens, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])

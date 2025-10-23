@@ -7,13 +7,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "username", "email", "password"]
+        fields = ["id", "email", "password"] # Removed username from fields
 
     def create(self, validated_data):
         # Make sure the password is hashed when saving
         user = User.objects.create_user(
-            username=validated_data["username"],
-            email=validated_data.get("email"),
+            username=validated_data["email"],  # Use email as username
+            email=validated_data["email"],
             password=validated_data["password"]
         )
         return user

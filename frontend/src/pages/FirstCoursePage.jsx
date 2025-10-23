@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../Components/NavBar";
 import "./FirstCoursePage.css";
 import api from "../api";
 
 function FirstCoursePage() {
+  const navigate = useNavigate();
   const [area, setArea] = useState("");
   const [loading, setLoading] = useState(false);
   const [pathway, setPathway] = useState(null);
@@ -21,7 +23,7 @@ function FirstCoursePage() {
 
     try {
       const response = await api.post("/generate-pathway-json/", { area });
-      setPathway(response.data);
+      navigate('/learning-pathway', { state: { pathway: response.data } });
     } catch (err) {
       setError(err.message || "Failed to generate course pathway.");
     } finally {
@@ -59,21 +61,6 @@ function FirstCoursePage() {
 
         {error && <p className="error-message">{error}</p>}
 
-        {pathway && (
-          <div className="pathway-results">
-            <h2>{pathway.title}</h2>
-            {pathway.modules.map((module, index) => (
-              <div key={index} className="module">
-                <h3>{module.title}</h3>
-                <ul>
-                  {module.lessons.map((lesson, i) => (
-                    <li key={i}>{lesson.title}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
       <footer className="course-footer">

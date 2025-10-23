@@ -9,8 +9,9 @@ urlpatterns = [
     path('lessons/<int:lesson_id>/', views.lesson_detail_api),
     path("generate-pathway/", views.generate_pathway, name="generate_pathway"),
     path("generate-pathway-json/", views.generate_pathway_json, name="generate_pathway_json"),
-    path("generate-lesson-content/<int:lesson_id>/", views.generate_lesson_content, name="generate_lesson_content"),
-    path("feedback/", include("feedback.urls"))
+        path("generate-lesson-content/", views.generate_lesson_content, name="generate_lesson_content"),
+    path("feedback/", include("feedback.urls")),
+    path("user/", include("users.urls"))
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

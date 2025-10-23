@@ -14,8 +14,8 @@ def gen_pathway(area):
             f"{{\n"
             f'  "title": "{area}",\n'
             f'  "modules": [\n'
-            f'    {{ "title": "Module 1: Basics", "lessons": [\n'
-            f'        {{"title": "Lesson 1"}}, {{"title": "Lesson 2"}}\n'
+            f'    {{ "title": "Basics", "lessons": [\n'
+            f'        {{"title": "Lesson 1 title"}}, {{"title": "Lesson 2 title"}}\n'
             f"      ]\n    }}\n"
             f"  ]\n"
             f"}}"
@@ -48,10 +48,11 @@ def gen_pathway(area):
 
     return data
 
-def gen_lesson_content(topic: str) -> str:
+def gen_lesson_content(topic: str, area: str, module: str) -> str:
+    client = replicate.Client(api_token=settings.REPLICATE_API_TOKEN)
     
     input_data = {
-        "prompt": f"Create a structured lesson on the topic '{topic}'. "
+        "prompt": f"Create a structured lesson on the topic '{topic}', in the area '{area}' and module '{module}'. "
                   f"Include: (1) an introduction, (2) step-by-step explanation, "
                   f"(3) examples (and code if relevant), and (4) a concise summary. "
                   f"Keep the style beginner-friendly but informative.",
@@ -59,15 +60,12 @@ def gen_lesson_content(topic: str) -> str:
         "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
     }
 
-    output = replicate.run(
+    output = client.run(
         "meta/meta-llama-3-8b-instruct",
-        input=input_data,
-        api_token=settings.REPLICATE_API_TOKEN
+        input=input_data
     )
 
-    try:
-        data = json.loads(output)
-    except:
-        data = "".join(output)
-    
-    return data
+    if isinstance(output, list):
+        output = "".join(output)
+
+    return output
