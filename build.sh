@@ -21,7 +21,7 @@ print("DATABASE_URL:", os.environ.get("DATABASE_URL"))
 # Also print Django parsed DATABASES if possible
 try:
     import django, sys
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "yourproject.settings")   # <-- REPLACE
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main_project.settings")   # <-- REPLACE
     django.setup()
     from django.conf import settings
     print("Django DB engine:", settings.DATABASES.get('default', {}).get('ENGINE'))
