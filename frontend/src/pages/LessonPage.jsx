@@ -18,7 +18,7 @@ const LessonPage = () => {
       setLoading(true);
       setError('');
       try {
-        const response = await api.post('/generate-lesson-content/', { 
+        const response = await api.post('/api/generate-lesson-content/', { 
           area: area,
           module: module,
           topic: lesson 

@@ -22,7 +22,7 @@ function FirstCoursePage() {
     setPathway(null);
 
     try {
-      const response = await api.post("/generate-pathway-json/", { area });
+      const response = await api.post("/api/generate-pathway-json/", { area });
       navigate('/learning-pathway', { state: { pathway: response.data } });
     } catch (err) {
       setError(err.message || "Failed to generate course pathway.");
