@@ -41,7 +41,7 @@ if [ "${CREATE_SUPERUSER:-}" = "true" ]; then
   echo "+++ CREATE_SUPERUSER IS TRUE - CREATING/UPDATING +++"
   python - <<'PY'
 import os, django, sys
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "yourproject.settings")  # <-- REPLACE
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main_project.settings")  # <-- REPLACE
 django.setup()
 from django.contrib.auth import get_user_model
 User = get_user_model()
