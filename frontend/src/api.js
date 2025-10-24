@@ -75,7 +75,7 @@ api.interceptors.response.use(
 
       try {
         // Adjust path if your refresh endpoint differs
-        const r = await axios.post(`${BASE_URL}/token/refresh/`, { refresh });
+        const r = await axios.post(`${BASE}/token/refresh/`, { refresh });
         const newAccess = r.data.access;
         setTokens({ access: newAccess }); // keep existing refresh unless changed
         processQueue(null, newAccess);

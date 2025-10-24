@@ -65,62 +65,6 @@ function HomePage() {
         </button>
       </div>
 
-      {/* Features Section */}
-      <section className="features-section">
-        <h2 className="section-title">The missing piece in self-learning</h2>
-        
-        <div className="features-grid">
-          <div className="feature-card">
-            <img 
-              src="https://api.builder.io/api/v1/image/assets/TEMP/9ea82b141f17e47db4b1f999bcb1d62735457afa?width=180" 
-              alt="Journey" 
-              className="feature-icon"
-            />
-            <h3 className="feature-title">Clear sequence</h3>
-            <p className="feature-description">
-              With a ready-made, editable learning pathway you can actually focus on learning, not planning
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <img 
-              src="https://api.builder.io/api/v1/image/assets/TEMP/bfb9536bef1c5c2df01ad92ecee525a0d1e997ca?width=180" 
-              alt="Voice And Touch" 
-              className="feature-icon"
-            />
-            <h3 className="feature-title">Interactive interface</h3>
-            <p className="feature-description">
-              Experience a smooth learning process through an interface designed for your comfort and engagement
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <img 
-              src="https://api.builder.io/api/v1/image/assets/TEMP/d1b01d254f4c95ae0e0382cddc6d535b70f9f1a5?width=180" 
-              alt="Learning" 
-              className="feature-icon"
-            />
-            <h3 className="feature-title">Lasting knowledge</h3>
-            <p className="feature-description">
-              Our lessons are designed to give you a thorough understanding of the topic, not just basic facts
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <img 
-              src="https://api.builder.io/api/v1/image/assets/TEMP/7fdcc59f7b2019f9175a82bf331e91c10fd9dd5d?width=180" 
-              alt="Positive Dynamic" 
-              className="feature-icon"
-            />
-            <h3 className="feature-title">Progress-tracking</h3>
-            <p className="feature-subtitle">(coming soon)</p>
-            <p className="feature-description">
-              Gain insights about your learning process and achievements with our visual progress-tracking system
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Feedback Section */}
       <section className="feedback-section">
         <h2 className="feedback-heading">Help us improve</h2>
