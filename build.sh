@@ -21,7 +21,7 @@ if [ "${CREATE_SUPERUSER:-}" = "true" ]; then
   python - <<'PY'
 import os
 import django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "yourproject.settings")  # <- replace yourproject
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main_project.settings")  
 django.setup()
 from django.contrib.auth import get_user_model
 User = get_user_model()

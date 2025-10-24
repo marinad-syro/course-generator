@@ -3,10 +3,12 @@
 
 import axios from 'axios';
 
-const BASE = '/api'; // in production replace with your real API origin or use env vars
+// Use Vite's env vars to set the base URL. In dev, this will be undefined, so we fall back to '/api' for the proxy.
+// In production, you'll set VITE_API_BASE_URL on your hosting provider.
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 const api = axios.create({
-  baseURL: BASE,
+  baseURL: BASE_URL,
   timeout: 15000,
 });
 
@@ -73,7 +75,7 @@ api.interceptors.response.use(
 
       try {
         // Adjust path if your refresh endpoint differs
-        const r = await axios.post(`${BASE}/token/refresh/`, { refresh });
+        const r = await axios.post(`${BASE_URL}/token/refresh/`, { refresh });
         const newAccess = r.data.access;
         setTokens({ access: newAccess }); // keep existing refresh unless changed
         processQueue(null, newAccess);
