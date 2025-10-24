@@ -6,7 +6,7 @@ python-decouple==3.8
 replicate==1.0.7
 gunicorn==22.0.0
 whitenoise==6.7.0
-psycopg[binary]==3.2.0
+psycopg[binary]==3.2.11
 uvicorn==0.23.2
 django-cors-headers==4.3.1
 
