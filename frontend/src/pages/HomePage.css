@@ -260,11 +260,11 @@ body {
 
 /* Feedback Section */
 .feedback-section {
-  position: absolute;
-  left: 0;
-  top: 1246px;
+  position: relative; /* Changed from absolute */
   width: 100%;
   text-align: center;
+  margin-top: 100px; /* Adjust this value to control space */
+  padding: 40px 0;
 }
 
 .feedback-heading {
@@ -389,11 +389,10 @@ body {
 
 /* Footer */
 .footer {
-  position: absolute;
-  left: 0;
-  top: 1866px;
+  position: relative; /* Changed from absolute */
   width: 100%;
   height: 264px;
+  margin-top: 100px; /* Space above the footer */
 }
 
 .footer-divider {

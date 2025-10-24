@@ -17,7 +17,7 @@ const SignupComponent = ({ onSignupSuccess }) => {
     }
 
     try {
-            const response = await api.post('/user/register/', { email, password });
+            const response = await api.post('/api/user/register/', { email, password });
       // Assuming the token is in response.data.access
       localStorage.setItem('token', response.data.access);
       onSignupSuccess();
