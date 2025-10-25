@@ -65,8 +65,7 @@ function FirstCoursePage() {
 
       <footer className="course-footer">
         <h2>Sopheo</h2>
-        <p>Contact:</p>
-        <p>Icons by icons8.com</p>
+        <p>Contact: sopheo.contact@gmail.com</p>
       </footer>
     </div>
   );

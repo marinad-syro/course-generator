@@ -53,9 +53,9 @@ function HomePage() {
         <section className="hero">
           <h1 className="hero-title">Curiosity, made easy</h1>
           <p className="hero-description">
-            Learn with a course tailored to your needs.<br />
-            No deadlines. No constraints on what you learn.<br />
-            Just name a topic and start your journey.
+            No more drowning in random websites.
+            <br />
+            Just name a topic and <span className="hero-highlight">learn with structure</span>.
           </p>
         </section>
 
@@ -67,10 +67,10 @@ function HomePage() {
 
       {/* Feedback Section */}
       <section className="feedback-section">
-        <h2 className="feedback-heading">Help us improve</h2>
+        <h2 className="feedback-heading">Leave your feedback!</h2>
         <p className="feedback-intro">
           Your input is highly appreciated!<br />
-          Leave feedback and recommendations to improve our initial product.
+          Leave feedback and recommendations to improve my initial product.
         </p>
         
         <form className="feedback-form" onSubmit={handleSubmit}>

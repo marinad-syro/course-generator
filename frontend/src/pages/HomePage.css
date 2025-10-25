@@ -147,8 +147,13 @@ body {
   font-size: 24px;
   font-weight: 400;
   line-height: 150%;
-  color: rgba(71, 21, 50, 0.76);
+  color: #471532;
   margin: 0;
+}
+
+.hero-highlight {
+  font-weight: 700;
+  color: #471532;
 }
 
 /* CTA Button */
@@ -260,11 +265,11 @@ body {
 
 /* Feedback Section */
 .feedback-section {
-  position: relative; /* Changed from absolute */
+  position: relative;
   width: 100%;
   text-align: center;
-  margin-top: 100px; /* Adjust this value to control space */
-  padding: 40px 0;
+  margin-top: 20px; /* Further reduced from 40px */
+  padding: 20px 0;
 }
 
 .feedback-heading {
@@ -474,14 +479,6 @@ body {
     margin-bottom: 60px;
   }
 
-  .features-section {
-    position: relative;
-    left: 0;
-    top: 280px;
-    width: 100%;
-    padding: 0 40px;
-  }
-
   .section-title {
     position: relative;
     left: 0;
@@ -491,23 +488,16 @@ body {
     margin-bottom: 80px;
   }
 
-  .features-grid {
-    position: relative;
-    top: 0;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    margin-top: 80px;
-  }
 
   .feedback-section {
     position: relative;
-    top: 320px;
-    padding: 0 40px;
+    top: 0px;
+    padding: 0 100px;
   }
 
   .footer {
     position: relative;
-    top: 360px;
+    top: 200px;
   }
 }
 
@@ -541,22 +531,12 @@ body {
     font-size: 24px;
   }
 
-  .features-section {
-    padding: 0 20px;
-    top: 240px;
-  }
-
   .section-title {
     font-size: 36px;
   }
 
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 60px;
-  }
-
   .feedback-section {
-    top: 280px;
+    top: 10px;
     padding: 0 20px;
   }
 

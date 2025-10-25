@@ -139,13 +139,30 @@ def generate_pathway(request):
 
 @api_view(['POST'])
 def generate_pathway_json(request):
-    print(f"REPLICATE_API_TOKEN from settings: {settings.REPLICATE_API_TOKEN}") # Temporary debug print
+    print(f"REPLICATE_API_TOKEN from settings: {settings.REPLICATE_API_TOKEN}")
     area_name = request.data.get("area")
     if not area_name:
         return Response({"error": "Area is required"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         data = gen_pathway(area_name)
+        print('pathway generated')
+        # Save to database
+        area = Area.objects.create(name=data.get("title", area_name), user=request.user)
+        print('area created')
+        for mod in data.get("modules", []):
+            module = Module.objects.create(
+                name=mod.get("title", "Untitled Module"),
+                area=area
+            )
+            for les in mod.get("lessons", []):
+                Lesson.objects.create(
+                    name=les.get("title", "Untitled Lesson"),
+                    module=module
+                )
+        
+        # Include the database ID in the response
+        data['id'] = area.id
         return Response(data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
