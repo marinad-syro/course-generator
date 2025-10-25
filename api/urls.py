@@ -11,7 +11,7 @@ urlpatterns = [
     path("generate-pathway-json/", views.generate_pathway_json, name="generate_pathway_json"),
     path("generate-lesson-content/", views.generate_lesson_content, name="generate_lesson_content"),
     path("feedback/", include("feedback.urls")),
-    path("user/", include("users.urls"))
+    path("users/", include("users.urls"))
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
