@@ -138,7 +138,6 @@ def generate_pathway(request):
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def generate_pathway_json(request):
     print(f"[DEBUG] generate_pathway_json called by user: {request.user.id}")
     print(f"[DEBUG] Request data: {request.data}")

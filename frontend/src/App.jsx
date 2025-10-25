@@ -82,11 +82,7 @@ function App() {
         <Route 
           path="/signin" 
           element={
-            isAuthenticated ? (
-              <Navigate to="/my-pathways" replace />
-            ) : (
               <SignInPage onSignIn={() => setIsAuthenticated(true)} />
-            )
           } 
         />
         <Route 
