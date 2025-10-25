@@ -100,8 +100,7 @@ function HomePage() {
       <footer className="footer">
         <div className="footer-divider"></div>
         <div className="footer-logo">Sopheo</div>
-        <div className="footer-contact">Contact:</div>
-        <div className="footer-credits">Icons by icons8.com</div>
+        <div className="footer-contact">Contact: sopheo.contact@gmail.com</div>
       </footer>
     </div>
   );

@@ -1,0 +1,14 @@
+.signup-page {
+  background-color: #E4DCE0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding-top: 120px; /* To account for the fixed navbar */
+}

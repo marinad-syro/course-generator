@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import api from '../api';
-import './SignupComponent.css';
+import './SignupComponent.css'; // Reusing the same CSS for a consistent look
 
-const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
+const SignInComponent = ({ onSigninSuccess, onSwitchToSignup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSignup = async (e) => {
+  const handleSignin = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -17,12 +17,12 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
     }
 
     try {
-            const response = await api.post('/users/register/', { email, password });
-      // Assuming the token is in response.data.access
+      // The backend's login view expects 'username', so we send the email as the username.
+      const response = await api.post('/users/login/', { username: email, password });
       localStorage.setItem('token', response.data.access);
-      onSignupSuccess();
+      onSigninSuccess();
     } catch (err) {
-      setError('Failed to sign up. Please try again.');
+      setError('Failed to sign in. Please check your credentials.');
       console.error(err);
     }
   };
@@ -30,8 +30,8 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
   return (
     <div className="signup-overlay">
       <div className="signup-box">
-        <h2>Sign Up to Unlock Your Course</h2>
-        <form onSubmit={handleSignup}>
+        <h2>Sign In to Your Account</h2>
+        <form onSubmit={handleSignin}>
           <input
             type="email"
             placeholder="Email"
@@ -44,13 +44,13 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit">Sign Up</button>
+          <button type="submit">Sign In</button>
           {error && <p className="error-message">{error}</p>}
         </form>
         <p className="switch-form-text">
-          Already have an account?{' '}
-          <button onClick={onSwitchToSignin} className="switch-form-button">
-            Sign In
+          Don't have an account?{' '}
+          <button onClick={onSwitchToSignup} className="switch-form-button">
+            Sign Up
           </button>
         </p>
       </div>
@@ -58,4 +58,4 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
   );
 };
 
-export default SignupComponent;
+export default SignInComponent;

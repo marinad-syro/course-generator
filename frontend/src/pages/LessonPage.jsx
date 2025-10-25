@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import api from '../api';
 import './LessonPage.css';
@@ -18,7 +18,7 @@ const LessonPage = () => {
       setLoading(true);
       setError('');
       try {
-        const response = await api.post('/api/generate-lesson-content/', { 
+        const response = await api.post('/generate-lesson-content/', { 
           area: area,
           module: module,
           topic: lesson 
@@ -37,24 +37,60 @@ const LessonPage = () => {
 
   if (!lesson) {
     return (
-      <div>
+      <div className="lesson-page">
         <NavBar />
         <div className="lesson-container">
-          <h1>No lesson data found.</h1>
-          <p>Please navigate from a learning pathway.</p>
+          <div className="lesson-header">
+            <h1>No lesson data found</h1>
+            <p className="back-link">
+              <Link to="/my-pathways">← Back to My Pathways</Link>
+            </p>
+          </div>
+          <div className="lesson-content">
+            <p>Please navigate from a learning pathway or select a valid lesson.</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="lesson-page">
       <NavBar />
       <div className="lesson-container">
-        <h1>{lesson}</h1>
-        {loading && <p>Generating your lesson...</p>}
-        {error && <p className="error-message">{error}</p>}
-        {content && <div className="lesson-content" dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br />') }} />}
+        <div className="lesson-header">
+          <h1>{lesson}</h1>
+          <p className="module-info">
+            <span className="area">{area}</span> • <span className="module">{module}</span>
+          </p>
+          <p className="back-link">
+            <Link to="/my-pathways">← Back to My Pathways</Link>
+          </p>
+        </div>
+        
+        <div className="lesson-content-wrapper">
+          {loading ? (
+            <div className="loading-state">
+              <div className="spinner"></div>
+              <p>Generating your lesson content...</p>
+            </div>
+          ) : error ? (
+            <div className="error-state">
+              <p className="error-message">{error}</p>
+              <button 
+                className="retry-button"
+                onClick={() => window.location.reload()}
+              >
+                Retry
+              </button>
+            </div>
+          ) : (
+            <div 
+              className="lesson-content" 
+              dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br />') }} 
+            />
+          )}
+        </div>
       </div>
     </div>
   );

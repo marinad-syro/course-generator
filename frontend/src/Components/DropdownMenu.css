@@ -1,0 +1,39 @@
+.dropdown-menu {
+  position: absolute;
+  top: 100px; /* Position below the navbar */
+  right: 60px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu li {
+  padding: 0.75rem 1.5rem;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  font-family: 'Inria Serif', serif;
+  font-size: 1.2rem;
+  color: #471532;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  color: #15472A;
+}

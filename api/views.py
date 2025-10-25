@@ -15,7 +15,7 @@ from django.conf import settings
 def area_list_api(request):
     if request.method == "GET":
         try:
-            areas = Area.objects.all()
+            areas = Area.objects.filter(user=request.user)
             serializer = AreaSerializer(areas, many=True)
             return Response(serializer.data)
         except Exception as e:
@@ -121,7 +121,7 @@ def generate_pathway(request):
 
     data = gen_pathway(area_name)
 
-    area = Area.objects.create(name=data.get("title", area_name))
+    area = Area.objects.create(name=data.get("title", area_name), user=request.user)
 
     for mod in data.get("modules", []):
         module = Module.objects.create(

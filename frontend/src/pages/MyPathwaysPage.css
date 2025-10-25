@@ -1,0 +1,47 @@
+.my-pathways-page {
+  background-color: #E4DCE0;
+  min-height: 100vh;
+}
+
+.pathways-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 140px 2rem 2rem 2rem; /* Add padding top for navbar */
+  text-align: center;
+}
+
+.pathways-list-container h1 {
+  font-family: 'Inria Serif', serif;
+  font-size: 3rem;
+  color: #15472A;
+  margin-bottom: 2rem;
+}
+
+.pathways-list {
+  list-style: none;
+  padding: 0;
+}
+
+.pathways-list li {
+  background-color: #ffffff;
+  margin: 1rem 0;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.pathways-list li:hover {
+  transform: translateY(-5px);
+}
+
+.pathways-list a {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.5rem;
+  color: #471532;
+  text-decoration: none;
+}
+
+.pathways-list a:hover {
+  color: #15472A;
+}

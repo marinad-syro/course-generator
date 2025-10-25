@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import SignupComponent from '../Components/SignupComponent';
+import SignInComponent from '../Components/SignInComponent';
 import './LearningPathwayPage.css';
 
 const LearningPathwayPage = () => {
     const location = useLocation();
   const { pathway } = location.state || {};
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isLoginView, setIsLoginView] = useState(false); // To toggle between login and signup
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,7 +18,7 @@ const LearningPathwayPage = () => {
     }
   }, []);
 
-  const handleSignupSuccess = () => {
+  const handleAuthSuccess = () => {
     setIsSignedUp(true);
   };
 
@@ -56,7 +58,19 @@ const LearningPathwayPage = () => {
           ))}
         </div>
       </div>
-      {!isSignedUp && <SignupComponent onSignupSuccess={handleSignupSuccess} />}
+      {!isSignedUp && (
+        isLoginView ? (
+          <SignInComponent 
+            onSigninSuccess={handleAuthSuccess} 
+            onSwitchToSignup={() => setIsLoginView(false)} 
+          />
+        ) : (
+          <SignupComponent 
+            onSignupSuccess={handleAuthSuccess} 
+            onSwitchToSignin={() => setIsLoginView(true)} 
+          />
+        )
+      )}
     </div>
   );
 };
