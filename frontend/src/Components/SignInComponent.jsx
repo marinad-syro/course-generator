@@ -17,9 +17,13 @@ const SignInComponent = ({ onSigninSuccess, onSwitchToSignup }) => {
     }
 
     try {
-      // The backend's login view expects 'username', so we send the email as the username.
-      const response = await api.post('/users/login/', { username: email, password });
-      localStorage.setItem('token', response.data.access);
+      // Use the JWT token endpoint for authentication
+      const response = await api.post('/api/token/', { username: email, password });
+      // Store both access and refresh tokens
+      localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
+      // Set default authorization header for future requests
+      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
       onSigninSuccess();
     } catch (err) {
       setError('Failed to sign in. Please check your credentials.');

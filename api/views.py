@@ -138,6 +138,7 @@ def generate_pathway(request):
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def generate_pathway_json(request):
     print(f"REPLICATE_API_TOKEN from settings: {settings.REPLICATE_API_TOKEN}")
     area_name = request.data.get("area")

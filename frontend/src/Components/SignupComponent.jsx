@@ -17,9 +17,21 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
     }
 
     try {
-            const response = await api.post('/users/register/', { email, password });
-      // Assuming the token is in response.data.access
-      localStorage.setItem('token', response.data.access);
+      // First, register the user
+      await api.post('/users/register/', { email, password, username: email });
+      
+      // Then, log in to get the JWT tokens
+      const response = await api.post('/api/token/', { 
+        username: email, 
+        password 
+      });
+      
+      // Store both access and refresh tokens
+      localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
+      // Set default authorization header for future requests
+      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+      
       onSignupSuccess();
     } catch (err) {
       setError('Failed to sign up. Please try again.');
