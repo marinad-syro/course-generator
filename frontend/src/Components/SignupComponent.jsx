@@ -21,7 +21,7 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
       await api.post('/users/register/', { email, password, username: email });
       
       // Then, log in to get the JWT tokens
-      const response = await api.post('/api/token/', { 
+      const response = await api.post('/token/', { 
         username: email, 
         password 
       });

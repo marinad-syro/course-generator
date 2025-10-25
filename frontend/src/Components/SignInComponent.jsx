@@ -18,7 +18,7 @@ const SignInComponent = ({ onSigninSuccess, onSwitchToSignup }) => {
 
     try {
       // Use the JWT token endpoint for authentication
-      const response = await api.post('/api/token/', { username: email, password });
+      const response = await api.post('/token/', { username: email, password });
       // Store both access and refresh tokens
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
