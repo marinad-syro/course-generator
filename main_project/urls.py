@@ -12,6 +12,8 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),   
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    re_path(r'^app/.*$', TemplateView.as_view(template_name="index.html")),
+    # This catch-all route is for React Router to handle frontend routing.
+    re_path(r'^(?!api/|admin/).*$', TemplateView.as_view(template_name="index.html")),
+
     path("feedback/", include("feedback.urls")),
 ]
