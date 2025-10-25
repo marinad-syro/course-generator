@@ -140,33 +140,77 @@ def generate_pathway(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def generate_pathway_json(request):
-    print(f"REPLICATE_API_TOKEN from settings: {settings.REPLICATE_API_TOKEN}")
+    print(f"[DEBUG] generate_pathway_json called by user: {request.user.id}")
+    print(f"[DEBUG] Request data: {request.data}")
+    
     area_name = request.data.get("area")
     if not area_name:
         return Response({"error": "Area is required"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
+        # Step 1: Generate pathway data
+        print(f"[DEBUG] Generating pathway for area: {area_name}")
         data = gen_pathway(area_name)
-        print('pathway generated')
-        # Save to database
-        area = Area.objects.create(name=data.get("title", area_name), user=request.user)
-        print('area created')
-        for mod in data.get("modules", []):
-            module = Module.objects.create(
-                name=mod.get("title", "Untitled Module"),
-                area=area
-            )
-            for les in mod.get("lessons", []):
-                Lesson.objects.create(
-                    name=les.get("title", "Untitled Lesson"),
-                    module=module
-                )
+        print(f'[DEBUG] Pathway generated: {data.get("title") if data else "No data"}')
         
-        # Include the database ID in the response
-        data['id'] = area.id
-        return Response(data, status=status.HTTP_200_OK)
+        if not data or not isinstance(data, dict):
+            return Response(
+                {"error": "Failed to generate pathway data"}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
+        # Step 2: Save to database
+        print(f"[DEBUG] Creating area in database...")
+        try:
+            area = Area.objects.create(
+                name=data.get("title", area_name), 
+                user=request.user
+            )
+            print(f'[DEBUG] Area created with ID: {area.id}')
+            
+            # Step 3: Create modules and lessons
+            for mod_idx, mod in enumerate(data.get("modules", [])):
+                try:
+                    module = Module.objects.create(
+                        name=mod.get("title", f"Module {mod_idx + 1}"),
+                        area=area
+                    )
+                    print(f'[DEBUG] Created module: {module.name}')
+                    
+                    for les_idx, les in enumerate(mod.get("lessons", [])):
+                        try:
+                            Lesson.objects.create(
+                                name=les.get("title", f"Lesson {les_idx + 1}"),
+                                module=module
+                            )
+                        except Exception as e:
+                            print(f'[ERROR] Failed to create lesson: {str(e)}')
+                            continue
+                            
+                except Exception as e:
+                    print(f'[ERROR] Failed to create module: {str(e)}')
+                    continue
+            
+            # Include the database ID in the response
+            data['id'] = area.id
+            return Response(data, status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            print(f'[ERROR] Database error: {str(e)}')
+            return Response(
+                {"error": "Database error", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
     except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        error_msg = f"Error generating pathway: {str(e)}"
+        print(f'[ERROR] {error_msg}')
+        import traceback
+        traceback.print_exc()
+        return Response(
+            {"error": "Failed to generate pathway", "details": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 @api_view(['POST'])
 def generate_lesson_content(request):
