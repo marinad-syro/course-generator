@@ -60,7 +60,7 @@ function HomePage() {
         </section>
 
         {/* Start Now Button */}
-        <button className="cta-button" onClick={() => navigate("/first-course")}>
+        <button className="cta-button" onClick={() => navigate("/signup")}>
           Start Now
         </button>
       </div>

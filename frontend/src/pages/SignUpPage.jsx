@@ -8,7 +8,7 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   const handleSignupSuccess = () => {
-    navigate('/'); // Navigate to home page after successful sign-up
+    navigate('/first-course'); // Navigate to first course page after successful sign-up
   };
 
   return (
