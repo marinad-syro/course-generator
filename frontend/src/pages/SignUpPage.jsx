@@ -4,10 +4,13 @@ import SignupComponent from '../Components/SignupComponent';
 import NavBar from '../Components/NavBar';
 import './SignUpPage.css';
 
-const SignUpPage = () => {
+const SignUpPage = ({ onSignIn }) => {
   const navigate = useNavigate();
 
   const handleSignupSuccess = () => {
+    if (onSignIn) {
+      onSignIn(); // Update the authentication state in App.jsx
+    }
     navigate('/first-course'); // Navigate to first course page after successful sign-up
   };
 

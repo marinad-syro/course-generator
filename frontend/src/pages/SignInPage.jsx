@@ -4,11 +4,14 @@ import SignInComponent from '../Components/SignInComponent';
 import NavBar from '../Components/NavBar';
 import './SignInPage.css';
 
-const SignInPage = () => {
+const SignInPage = ({ onSignIn }) => {
   const navigate = useNavigate();
 
   const handleSigninSuccess = () => {
-    navigate('/'); // Navigate to home page after successful sign-in
+    if (onSignIn) {
+      onSignIn(); // Update the authentication state in App.jsx
+    }
+    navigate('/first-course'); // Navigate to home page after successful sign-in
   };
 
   return (

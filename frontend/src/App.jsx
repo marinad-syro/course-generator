@@ -99,7 +99,7 @@ function App() {
             isAuthenticated ? (
               <Navigate to="/my-pathways" replace />
             ) : (
-              <SignUpPage onSignUp={() => setIsAuthenticated(true)} />
+              <SignUpPage onSignIn={() => setIsAuthenticated(true)} />
             )
           } 
         />
