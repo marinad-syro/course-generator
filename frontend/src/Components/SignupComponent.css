@@ -51,3 +51,25 @@
   color: red;
   margin-top: 1rem;
 }
+
+.switch-form-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.switch-form-button {
+  background: none;
+  border: none;
+  color: #15472A;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  display: inline;
+}
+
+.switch-form-button:hover {
+  color: #0d2e1a;
+  text-decoration: none;
+}

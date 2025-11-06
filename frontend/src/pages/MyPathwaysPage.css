@@ -45,3 +45,52 @@
 .pathways-list a:hover {
   color: #15472A;
 }
+
+.no-pathways {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 400px;
+  padding: 60px 80px;
+  background: rgba(218, 212, 224, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 2rem auto;
+  max-width: 600px;
+  margin-top: 100px;
+}
+
+.no-pathways p {
+  font-family: 'Inria Serif', serif;
+  font-size: 1.5rem;
+  color: #471532;
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+}
+
+.create-pathway-button {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #FFF;
+  background: #471532;
+  padding: 15px 35px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.create-pathway-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.4);
+}
+
+.create-pathway-button:active {
+  transform: translateY(0);
+}

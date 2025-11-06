@@ -19,15 +19,21 @@
   color: #471532;
   text-decoration: none;
   font-family: 'Inria Serif', serif;
+  cursor: pointer;
+}
+
+.logo:hover {
+  color: #15472A;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s, background-color 0.2s;
 }
 
 .nav-links {
-  font-size: 1.2rem;
   display: flex;
   gap: 2rem;
   align-items: center;
-  color: #471532;
-  font-weight: bold;
   font-family: 'Inria Serif', serif;
 }
 
@@ -35,12 +41,15 @@
   color: #471532;
   text-decoration: none;
   font-weight: 500;
+  font-size: 1.2rem;
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: color 0.2s, background-color 0.2s;
+  cursor: pointer;
 }
 
 .nav-link:hover {
+  color: #15472A;
   background-color: #f5f5f5;
 }
 
@@ -49,16 +58,14 @@
   display: none;
 }
 
-.nav-link.sign-out-button {
-  color: #471532;
-  font-weight: 500;
-  font-family: 'Inria Serif', serif;
-  font-size: 1.2rem;
-  cursor: pointer;
+/* Sign out button specific styles */
+.sign-out-button {
   border: none;
   background: none;
+  font-family: 'Inria Serif', serif;
 }
 
-.nav-link.sign-out-button:hover {
+.sign-out-button:hover {
+  color: #15472A;
   background-color: #f5f5f5;
 }

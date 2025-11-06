@@ -10,51 +10,45 @@ const MyPathwaysPage = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPathways = async () => {
-      try {
-        // Get the access token
-        const token = localStorage.getItem('access_token');
-        
-        if (!token) {
-          // Redirect to sign in if not authenticated
-          navigate('/signin');
-          return;
-        }
+  const fetchPathways = React.useCallback(async () => {
+    try {
+      // Get the access token
+      const token = localStorage.getItem('access_token');
 
-        // Fetch the user's areas
-        const response = await api.get('/areas/', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
-        
-        
-        if (response.data && Array.isArray(response.data)) {
-          setPathways(response.data);
-          console.log('pathways', pathways);
-        } else {
-          console.log('Unexpected response format from server');
-        }
-      } catch (err) {
-        console.error('Error fetching pathways:', err);
-        if (err.response && err.response.status === 401) {
-          // If unauthorized, clear tokens and redirect to sign in
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          navigate('/signin');
-          return;
-        }
-        setError('Failed to load your pathways. Please try again later.');
-      } finally {
-        setLoading(false);
+      if (!token) {
+        navigate('/signin');
+        return;
       }
-    };
 
-    fetchPathways();
+      const response = await api.get('/areas/', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.data && Array.isArray(response.data)) {
+        setPathways(response.data);
+      } else {
+        setError('Received unexpected data format from server');
+      }
+    } catch (err) {
+      if (err.response?.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        navigate('/signin');
+        return;
+      }
+      setError('Failed to load your pathways. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   }, [navigate]);
+
+  // Call fetchPathways on component mount
+  useEffect(() => {
+    fetchPathways();
+  }, [fetchPathways]);
 
   if (loading) {
     return (
@@ -86,20 +80,9 @@ const MyPathwaysPage = () => {
         ) : pathways.length === 0 ? (
           <div className="no-pathways">
             <p>You haven't created any learning pathways yet.</p>
-            <button 
+            <button
               onClick={handleAddNewPathway}
-              className="primary-button"
-              style={{
-                marginTop: '1rem',
-                padding: '0.75rem 1.5rem',
-                backgroundColor: '#471532',
-                color: 'white',
-                border: 'none',
-                borderRadius: '15px',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: '500'
-              }}
+              className="create-pathway-button"
             >
               Create Your First Pathway
             </button>
@@ -135,8 +118,8 @@ const MyPathwaysPage = () => {
                   }
                 }}
               >
-                <h3 style={{ marginTop: 0, marginBottom: '0.5rem', fontFamily: 'Libre Baskerville', fontWeight: '500', fontSize: '1rem' }}>
-                  {pathway.area || 'Untitled Pathway'}
+                <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>
+                  {pathway.name || 'Untitled Pathway'}
                 </h3>
               </Link>
             ))}

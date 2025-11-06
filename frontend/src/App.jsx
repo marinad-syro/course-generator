@@ -78,7 +78,7 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        <Route path="/lesson" element={<LessonPage />} />
+        <Route path="/lesson/:id" element={<LessonPage />} />
         <Route 
           path="/signin" 
           element={
@@ -93,15 +93,9 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        <Route 
-          path="/signup" 
-          element={
-            isAuthenticated ? (
-              <Navigate to="/my-pathways" replace />
-            ) : (
-              <SignUpPage onSignIn={() => setIsAuthenticated(true)} />
-            )
-          } 
+        <Route
+          path="/signup"
+          element={<SignUpPage onSignIn={() => setIsAuthenticated(true)} />}
         />
         </Routes>
       </main>

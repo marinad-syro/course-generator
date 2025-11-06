@@ -18,10 +18,10 @@ const LessonPage = () => {
       setLoading(true);
       setError('');
       try {
-        const response = await api.post('/generate-lesson-content/', { 
-          area: area,
-          module: module,
-          topic: lesson 
+        const response = await api.post('/generate-lesson-content/', {
+          area: area?.name || area,
+          module: module?.name || module,
+          topic: lesson?.name || lesson
         });
         setContent(response.data.content);
       } catch (err) {
@@ -59,9 +59,9 @@ const LessonPage = () => {
       <NavBar />
       <div className="lesson-container">
         <div className="lesson-header">
-          <h1>{lesson}</h1>
+          <h1>{lesson?.name || lesson}</h1>
           <p className="module-info">
-            <span className="area">{area}</span> • <span className="module">{module}</span>
+            <span className="area">{area?.name || area}</span> • <span className="module">{module?.name || module}</span>
           </p>
           <p className="back-link">
             <Link to="/my-pathways">← Back to My Pathways</Link>

@@ -36,24 +36,34 @@ const SignInComponent = ({ onSigninSuccess, onSwitchToSignup }) => {
       <div className="signup-box">
         <h2>Sign In to Your Account</h2>
         <form onSubmit={handleSignin}>
+          <label htmlFor="signin-email">Email</label>
           <input
+            id="signin-email"
+            name="email"
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
           />
+          <label htmlFor="signin-password">Password</label>
           <input
+            id="signin-password"
+            name="password"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
           />
           <button type="submit">Sign In</button>
           {error && <p className="error-message">{error}</p>}
         </form>
         <p className="switch-form-text">
           Don't have an account?{' '}
-          <button onClick={onSwitchToSignup} className="switch-form-button">
+          <button type="button" onClick={onSwitchToSignup} className="switch-form-button">
             Sign Up
           </button>
         </p>

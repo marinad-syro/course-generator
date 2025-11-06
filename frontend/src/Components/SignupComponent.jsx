@@ -17,25 +17,20 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
     }
 
     try {
-      // First, register the user
-      await api.post('/users/register/', { email, password, username: email });
-      
-      // Then, log in to get the JWT tokens
-      const response = await api.post('/token/', { 
-        username: email, 
-        password 
-      });
-      
+      // Register the user (backend derives username from email and returns tokens)
+      const response = await api.post('/users/register/', { email, password });
+
       // Store both access and refresh tokens
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
+
       // Set default authorization header for future requests
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
-      
+
       onSignupSuccess();
     } catch (err) {
-      setError('Failed to sign up. Please try again.');
-      console.error(err);
+      const details = err?.response?.data?.details || err?.response?.data?.error || err.message;
+      setError(`Failed to sign up. ${typeof details === 'string' ? details : JSON.stringify(details)}`);
     }
   };
 
@@ -44,24 +39,34 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
       <div className="signup-box">
         <h2>Sign Up to Unlock Your Course</h2>
         <form onSubmit={handleSignup}>
+          <label htmlFor="signup-email">Email</label>
           <input
+            id="signup-email"
+            name="email"
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
           />
+          <label htmlFor="signup-password">Password</label>
           <input
+            id="signup-password"
+            name="password"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="new-password"
+            required
           />
           <button type="submit">Sign Up</button>
           {error && <p className="error-message">{error}</p>}
         </form>
         <p className="switch-form-text">
           Already have an account?{' '}
-          <button onClick={onSwitchToSignin} className="switch-form-button">
+          <button type="button" onClick={onSwitchToSignin} className="switch-form-button">
             Sign In
           </button>
         </p>

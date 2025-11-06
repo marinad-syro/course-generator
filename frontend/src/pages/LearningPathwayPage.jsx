@@ -9,32 +9,56 @@ const LearningPathwayPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [pathway, setPathway] = useState(location.state?.pathway);
-  const [loading, setLoading] = useState(!location.state?.pathway);
+  const [modules, setModules] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const pathwayId = id || window.location.pathname.split('/').pop();
+  
+  // Extract the numeric ID from the URL
+  const getPathwayId = () => {
+    if (id && !isNaN(parseInt(id))) return parseInt(id);
+    const pathParts = window.location.pathname.split('/');
+    const potentialId = pathParts[pathParts.length - 1];
+    return !isNaN(parseInt(potentialId)) ? parseInt(potentialId) : null;
+  };
+  
+  const pathwayId = getPathwayId();
 
   useEffect(() => {
-    const fetchPathway = async () => {
-      if (!pathway && pathwayId) {
-        try {
-          setLoading(true);
-          const response = await api.get(`/areas/${pathwayId}/`);
-          setPathway(response.data);
-        } catch (err) {
-          console.error('Error fetching pathway:', err);
-          setError('Failed to load pathway. Please try again.');
-          
-          // If unauthorized, redirect to sign-in
-          if (err.response?.status === 401) {
-            navigate('/signin', { state: { from: location.pathname } });
-          }
-        } finally {
-          setLoading(false);
+    const fetchPathwayAndModules = async () => {
+      if (!pathwayId) {
+        setError('Invalid pathway ID');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError('');
+        
+        // Only fetch pathway if not passed via location state
+        if (!pathway) {
+          const pathwayResponse = await api.get(`/areas/${pathwayId}/`);
+          setPathway(pathwayResponse.data);
         }
+
+        // Always fetch modules
+        const modulesResponse = await api.get(`/areas/${pathwayId}/modules/`);
+        setModules(Array.isArray(modulesResponse.data) ? modulesResponse.data : []);
+        
+      } catch (err) {
+        if (err.response?.status === 401) {
+          navigate('/signin', { state: { from: location.pathname } });
+        } else if (err.response?.status === 404) {
+          setError('Pathway not found. It may have been deleted or you may not have permission to view it.');
+        } else {
+          setError('Failed to load pathway data. Please try again later.');
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchPathway();
+    fetchPathwayAndModules();
   }, [pathwayId, pathway, navigate, location.pathname]);
 
   if (loading) {
@@ -56,7 +80,11 @@ const LearningPathwayPage = () => {
           textAlign: 'center',
           padding: '2rem',
           maxWidth: '800px',
-          margin: '0 auto'
+          margin: '0 auto',
+          marginTop: '6rem',
+          borderRadius: '10px',
+          backgroundColor: '#E4DCE0',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
         }}>
           <h1>Pathway Not Found</h1>
           <p>We couldn't find the learning pathway you're looking for.</p>
@@ -65,13 +93,14 @@ const LearningPathwayPage = () => {
             style={{
               marginTop: '1rem',
               padding: '0.75rem 1.5rem',
-              backgroundColor: '#4a6fa5',
+              backgroundColor: '#15472A',
               color: 'white',
               border: 'none',
-              borderRadius: '4px',
+              borderRadius: '10px',
               cursor: 'pointer',
               fontSize: '1rem',
-              fontWeight: '500'
+              fontWeight: '500',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
             }}
           >
             Back to My Pathways
@@ -104,47 +133,80 @@ const LearningPathwayPage = () => {
         </div>
 
         <div className="modules-container" style={{
+          marginTop: '2rem',
           display: 'flex',
           flexDirection: 'column',
-          gap: '2rem'
+          gap: '1rem'
         }}>
-          {pathway.modules && pathway.modules.length > 0 ? (
-            pathway.modules.map((module, index) => (
-              <div key={index} className="module" style={{
-                backgroundColor: 'white',
-                borderRadius: '8px',
-                padding: '1.5rem',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                <h3 style={{
-                  margin: '0 0 1rem 0',
-                  color: '#2c3e50',
-                  fontSize: '1.4rem'
-                }}>
-                  Module {index + 1}: {module.title}
-                </h3>
-                <ul style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: 0,
+          {modules.length > 0 ? (
+            modules.map((module) => (
+              <div 
+                key={module.id} 
+                className="module-card"
+                style={{
+                  backgroundColor: '#fff',
+                  borderRadius: '8px',
+                  padding: '1.5rem',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}
+              >
+                <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>{module.name}</h3>
+                <div className="lessons-list" style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '0.75rem'
                 }}>
-                  {module.lessons && module.lessons.map((lesson, i) => (
-                                    <li key={i} className="lesson-title">
-                    <Link to="/lesson" state={{ area: pathway.title, module: module.title, lesson: lesson.title }}>
-                      {lesson.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  {module.lessons?.length > 0 ? (
+                    module.lessons.map((lesson) => (
+                      <Link
+                        key={lesson.id}
+                        to={`/lesson/${lesson.id}`}
+                        state={{ 
+                          area: pathway,
+                          module: module,
+                          lesson: lesson
+                        }}
+                        style={{
+                          display: 'block',
+                          padding: '0.75rem 1rem',
+                          backgroundColor: '#f8f9fa',
+                          borderRadius: '6px',
+                          textDecoration: 'none',
+                          color: '#333',
+                          transition: 'background-color 0.2s',
+                          ':hover': {
+                            backgroundColor: '#e9ecef'
+                          }
+                        }}
+                      >
+                        {lesson.name}
+                      </Link>
+                    ))
+                  ) : (
+                    <div style={{
+                      padding: '1rem',
+                      backgroundColor: '#f8f9fa',
+                      borderRadius: '6px',
+                      color: '#6c757d',
+                      fontStyle: 'italic'
+                    }}>
+                      No lessons available for this module yet.
+                    </div>
+                  )}
+                </div>
+              </div>
             ))
           ) : (
-            <p>No modules found for this pathway.</p>
+            <div style={{
+              textAlign: 'center',
+              padding: '2rem',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '8px',
+              color: '#6c757d'
+            }}>
+              No modules available for this pathway yet.
+            </div>
           )}
-
         </div>
       </div>
       {/* Authentication is now handled by the backend */}

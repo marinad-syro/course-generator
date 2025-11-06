@@ -23,7 +23,7 @@ function FirstCoursePage() {
 
     try {
       const response = await api.post("/generate-pathway-json/", { area });
-      navigate('/learning-pathway', { state: { pathway: response.data } });
+      navigate(`/learning-pathway/${response.data.id}`, { state: { pathway: response.data } });
     } catch (err) {
       setError(err.message || "Failed to generate course pathway.");
     } finally {
@@ -42,13 +42,17 @@ function FirstCoursePage() {
       <div className="content-container">
         <div className="explore-box">
           <h1>What area would you like to explore?</h1>
+          <label htmlFor="explore-area" className="sr-only">Area to explore</label>
           <input 
+            id="explore-area"
+            name="area"
             type="text" 
             className="explore-input" 
             placeholder="eg. The Roman Empire" 
             value={area}
             onChange={(e) => setArea(e.target.value)}
             disabled={loading}
+            autoComplete="off"
           />
           <button 
             className="create-course-button" 

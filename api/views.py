@@ -1,6 +1,6 @@
 
 from lrn_org.models import Area, Module, Lesson
-from .serializers import AreaSerializer, ModuleSerializer, LessonSerializer
+from .serializers import AreaSerializer, ModuleSerializer, ModuleListSerializer, LessonSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -41,13 +41,26 @@ def area_list_api(request):
         except Area.DoesNotExist:
             return Response({"error": "Area not found"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST) 
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def area_detail_api(request, area_id):
+    try:
+        area = Area.objects.get(id=area_id, user=request.user)
+        serializer = AreaSerializer(area)
+        return Response(serializer.data)
+    except Area.DoesNotExist:
+        return Response({"error": "Area not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST', 'DELETE'])
 def module_list_api(request, area_id):
     if request.method == "GET":
-        modules = Module.objects.filter(area_id=area_id).values('id', 'name')
-        serializer = ModuleSerializer(modules, many=True)
+        modules = Module.objects.filter(area_id=area_id)
+        serializer = ModuleListSerializer(modules, many=True)
         return Response(serializer.data)
     elif request.method == "POST":
         serializer = ModuleSerializer(data=request.data)
@@ -59,12 +72,12 @@ def module_list_api(request, area_id):
         try:
             module_id = request.data.get('id')
             if module_id:
-                module = module.objects.get(id=module_id)
+                module = Module.objects.get(id=module_id)
                 module.delete()
                 return Response({"message": "Module deleted successfully"}, status=status.HTTP_200_OK)
             else:
                 return Response({"error": "Module ID is required"}, status=status.HTTP_400_BAD_REQUEST)
-        except Area.DoesNotExist:
+        except Module.DoesNotExist:
             return Response({"error": "Module not found"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST) 
@@ -73,7 +86,7 @@ def module_list_api(request, area_id):
 @api_view(['GET', 'POST'])
 def lesson_list_api(request, module_id):
     if request.method == "GET":
-        lessons = Lesson.objects.filter(module_id=module_id).values('id', 'name')
+        lessons = Lesson.objects.filter(module_id=module_id)
         serializer = LessonSerializer(lessons, many=True)
         return Response(serializer.data)
     elif request.method == "POST":
@@ -140,34 +153,27 @@ def generate_pathway(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def generate_pathway_json(request):
-    print(f"[DEBUG] generate_pathway_json called by user: {request.user.id}")
-    print(f"[DEBUG] Request data: {request.data}")
-    
     area_name = request.data.get("area")
     if not area_name:
         return Response({"error": "Area is required"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         # Step 1: Generate pathway data
-        print(f"[DEBUG] Generating pathway for area: {area_name}")
         data = gen_pathway(area_name)
-        print(f'[DEBUG] Pathway generated: {data.get("title") if data else "No data"}')
-        
+
         if not data or not isinstance(data, dict):
             return Response(
-                {"error": "Failed to generate pathway data"}, 
+                {"error": "Failed to generate pathway data"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        
+
         # Step 2: Save to database
-        print(f"[DEBUG] Creating area in database...")
         try:
             area = Area.objects.create(
-                name=data.get("title", area_name), 
+                name=data.get("title", area_name),
                 user=request.user
             )
-            print(f'[DEBUG] Area created with ID: {area.id}')
-            
+
             # Step 3: Create modules and lessons
             for mod_idx, mod in enumerate(data.get("modules", [])):
                 try:
@@ -175,38 +181,30 @@ def generate_pathway_json(request):
                         name=mod.get("title", f"Module {mod_idx + 1}"),
                         area=area
                     )
-                    print(f'[DEBUG] Created module: {module.name}')
-                    
+
                     for les_idx, les in enumerate(mod.get("lessons", [])):
                         try:
                             Lesson.objects.create(
                                 name=les.get("title", f"Lesson {les_idx + 1}"),
                                 module=module
                             )
-                        except Exception as e:
-                            print(f'[ERROR] Failed to create lesson: {str(e)}')
+                        except Exception:
                             continue
-                            
-                except Exception as e:
-                    print(f'[ERROR] Failed to create module: {str(e)}')
+
+                except Exception:
                     continue
-            
+
             # Include the database ID in the response
             data['id'] = area.id
             return Response(data, status=status.HTTP_201_CREATED)
-            
+
         except Exception as e:
-            print(f'[ERROR] Database error: {str(e)}')
             return Response(
                 {"error": "Database error", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-            
+
     except Exception as e:
-        error_msg = f"Error generating pathway: {str(e)}"
-        print(f'[ERROR] {error_msg}')
-        import traceback
-        traceback.print_exc()
         return Response(
             {"error": "Failed to generate pathway", "details": str(e)},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
