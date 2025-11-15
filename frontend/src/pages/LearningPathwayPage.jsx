@@ -128,7 +128,7 @@ const LearningPathwayPage = () => {
             margin: '0 0 0.5rem 0',
             color: '#333'
           }}>
-            {pathway.area || 'Learning Pathway'}
+            {pathway.name || 'Learning Pathway'}
           </h1>
         </div>
 

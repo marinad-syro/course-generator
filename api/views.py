@@ -194,9 +194,9 @@ def generate_pathway_json(request):
                 except Exception:
                     continue
 
-            # Include the database ID in the response
-            data['id'] = area.id
-            return Response(data, status=status.HTTP_201_CREATED)
+            # Return serialized area for consistency with other endpoints
+            serializer = AreaSerializer(area)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
             return Response(
@@ -211,6 +211,7 @@ def generate_pathway_json(request):
         )
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def generate_lesson_content(request):
     area = request.data.get("area")
     module = request.data.get("module")

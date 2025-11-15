@@ -18,10 +18,15 @@ const LessonPage = () => {
       setLoading(true);
       setError('');
       try {
+        // Safely extract names, handling both {name} and {title} formats
+        const areaName = typeof area === 'string' ? area : (area?.name || area?.title || '');
+        const moduleName = typeof module === 'string' ? module : (module?.name || module?.title || '');
+        const lessonName = typeof lesson === 'string' ? lesson : (lesson?.name || lesson?.title || '');
+
         const response = await api.post('/generate-lesson-content/', {
-          area: area?.name || area,
-          module: module?.name || module,
-          topic: lesson?.name || lesson
+          area: areaName,
+          module: moduleName,
+          topic: lessonName
         });
         setContent(response.data.content);
       } catch (err) {
@@ -59,9 +64,9 @@ const LessonPage = () => {
       <NavBar />
       <div className="lesson-container">
         <div className="lesson-header">
-          <h1>{lesson?.name || lesson}</h1>
+          <h1>{typeof lesson === 'string' ? lesson : (lesson?.name || lesson?.title || 'Lesson')}</h1>
           <p className="module-info">
-            <span className="area">{area?.name || area}</span> • <span className="module">{module?.name || module}</span>
+            <span className="area">{typeof area === 'string' ? area : (area?.name || area?.title || 'Area')}</span> • <span className="module">{typeof module === 'string' ? module : (module?.name || module?.title || 'Module')}</span>
           </p>
           <p className="back-link">
             <Link to="/my-pathways">← Back to My Pathways</Link>
