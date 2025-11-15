@@ -213,15 +213,49 @@ def generate_pathway_json(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def generate_lesson_content(request):
-    area = request.data.get("area")
-    module = request.data.get("module")
-    topic = request.data.get("topic")
+    lesson_id = request.data.get("lesson_id")
 
-    if not all([area, module, topic]):
-        return Response({"error": "Area, module, and topic are required"}, status=status.HTTP_400_BAD_REQUEST)
+    # Support legacy requests without lesson_id
+    if not lesson_id:
+        area = request.data.get("area")
+        module = request.data.get("module")
+        topic = request.data.get("topic")
 
+        if not all([area, module, topic]):
+            return Response({"error": "Either lesson_id OR (area, module, topic) are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            generated_content = gen_lesson_content(topic=topic, area=area, module=module)
+            return Response({"content": generated_content}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # New flow: check if content exists, generate and save if not
     try:
-        generated_content = gen_lesson_content(topic=topic, area=area, module=module)
+        lesson = Lesson.objects.get(id=lesson_id)
+
+        # Check if lesson already has content
+        if lesson.content and lesson.content.strip():
+            return Response({"content": lesson.content}, status=status.HTTP_200_OK)
+
+        # Generate new content
+        area_name = lesson.module.area.name
+        module_name = lesson.module.name
+        lesson_name = lesson.name
+
+        generated_content = gen_lesson_content(
+            topic=lesson_name,
+            area=area_name,
+            module=module_name
+        )
+
+        # Save to database
+        lesson.content = generated_content
+        lesson.save()
+
         return Response({"content": generated_content}, status=status.HTTP_200_OK)
+
+    except Lesson.DoesNotExist:
+        return Response({"error": "Lesson not found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -23,7 +23,7 @@ class Module(models.Model):
 
 class Lesson(models.Model):
     name = models.CharField(max_length=200)
-    content = models.TextField()
+    content = models.TextField(blank=True, default='')
     module = models.ForeignKey(
         Module,
         on_delete=models.CASCADE,

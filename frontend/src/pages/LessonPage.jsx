@@ -18,17 +18,25 @@ const LessonPage = () => {
       setLoading(true);
       setError('');
       try {
-        // Safely extract names, handling both {name} and {title} formats
-        const areaName = typeof area === 'string' ? area : (area?.name || area?.title || '');
-        const moduleName = typeof module === 'string' ? module : (module?.name || module?.title || '');
-        const lessonName = typeof lesson === 'string' ? lesson : (lesson?.name || lesson?.title || '');
+        // If lesson has an ID, use it for efficient retrieval and caching
+        if (lesson?.id) {
+          const response = await api.post('/generate-lesson-content/', {
+            lesson_id: lesson.id
+          });
+          setContent(response.data.content);
+        } else {
+          // Fallback for legacy or direct navigation without lesson object
+          const areaName = typeof area === 'string' ? area : (area?.name || area?.title || '');
+          const moduleName = typeof module === 'string' ? module : (module?.name || module?.title || '');
+          const lessonName = typeof lesson === 'string' ? lesson : (lesson?.name || lesson?.title || '');
 
-        const response = await api.post('/generate-lesson-content/', {
-          area: areaName,
-          module: moduleName,
-          topic: lessonName
-        });
-        setContent(response.data.content);
+          const response = await api.post('/generate-lesson-content/', {
+            area: areaName,
+            module: moduleName,
+            topic: lessonName
+          });
+          setContent(response.data.content);
+        }
       } catch (err) {
         setError('Failed to load lesson content. Please try again.');
         console.error(err);
