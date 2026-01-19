@@ -1,6 +1,7 @@
 
-from lrn_org.models import Area, Module, Lesson
-from .serializers import AreaSerializer, ModuleSerializer, ModuleListSerializer, LessonSerializer
+from lrn_org.models import Area, Module, Lesson, LessonProgress
+from .serializers import AreaSerializer, ModuleSerializer, ModuleListSerializer, LessonSerializer, LessonProgressSerializer
+from django.utils import timezone
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -257,5 +258,118 @@ def generate_lesson_content(request):
 
     except Lesson.DoesNotExist:
         return Response({"error": "Lesson not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def mark_lesson_complete(request, lesson_id):
+    """Mark a lesson as complete or incomplete for the current user."""
+    try:
+        lesson = Lesson.objects.get(id=lesson_id)
+
+        # Get or create progress record
+        progress, created = LessonProgress.objects.get_or_create(
+            user=request.user,
+            lesson=lesson,
+            defaults={'completed': True, 'completed_at': timezone.now()}
+        )
+
+        if not created:
+            # Toggle completion status
+            progress.completed = not progress.completed
+            progress.completed_at = timezone.now() if progress.completed else None
+            progress.save()
+
+        return Response({
+            'lesson_id': lesson_id,
+            'completed': progress.completed,
+            'completed_at': progress.completed_at
+        })
+
+    except Lesson.DoesNotExist:
+        return Response({"error": "Lesson not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_lesson_progress(request, lesson_id):
+    """Get progress status for a specific lesson."""
+    try:
+        progress = LessonProgress.objects.filter(
+            user=request.user,
+            lesson_id=lesson_id
+        ).first()
+
+        return Response({
+            'lesson_id': lesson_id,
+            'completed': progress.completed if progress else False,
+            'completed_at': progress.completed_at if progress else None
+        })
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_area_progress(request, area_id):
+    """Get progress for all lessons in an area (pathway), grouped by module."""
+    try:
+        area = Area.objects.get(id=area_id, user=request.user)
+
+        # Get all completed lesson IDs for this user in this area
+        completed_lessons = set(
+            LessonProgress.objects.filter(
+                user=request.user,
+                completed=True,
+                lesson__module__area=area
+            ).values_list('lesson_id', flat=True)
+        )
+
+        # Build progress data
+        modules_progress = []
+        total_lessons = 0
+        total_completed = 0
+
+        for module in area.modules.all():
+            lessons_data = []
+            module_completed = 0
+
+            for lesson in module.lessons.all():
+                is_completed = lesson.id in completed_lessons
+                lessons_data.append({
+                    'id': lesson.id,
+                    'name': lesson.name,
+                    'completed': is_completed
+                })
+                if is_completed:
+                    module_completed += 1
+                total_lessons += 1
+
+            total_completed += module_completed
+            modules_progress.append({
+                'id': module.id,
+                'name': module.name,
+                'lessons': lessons_data,
+                'completed_count': module_completed,
+                'total_count': len(lessons_data),
+                'percentage': round((module_completed / len(lessons_data) * 100) if lessons_data else 0)
+            })
+
+        return Response({
+            'area_id': area_id,
+            'area_name': area.name,
+            'modules': modules_progress,
+            'total_lessons': total_lessons,
+            'completed_lessons': total_completed,
+            'percentage': round((total_completed / total_lessons * 100) if total_lessons else 0)
+        })
+
+    except Area.DoesNotExist:
+        return Response({"error": "Area not found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

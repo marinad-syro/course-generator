@@ -1,0 +1,54 @@
+.lesson-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.lesson-item:hover {
+  background-color: #e9ecef;
+  border-color: #15472A;
+}
+
+.lesson-item.completed {
+  background-color: #e8f5e9;
+  border-color: #c8e6c9;
+}
+
+.lesson-item.completed:hover {
+  background-color: #c8e6c9;
+  border-color: #15472A;
+}
+
+.lesson-name {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.lesson-item.completed .lesson-name {
+  color: #2e7d32;
+}
+
+.completion-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #15472A;
+  color: white;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: 0.75rem;
+}
+
+.completion-badge svg {
+  width: 16px;
+  height: 16px;
+}

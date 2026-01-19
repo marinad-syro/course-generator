@@ -137,17 +137,70 @@
   background-color: #0d331f;
 }
 
+/* Mark Complete Button */
+.lesson-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+}
+
+.mark-complete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #15472A;
+  border-radius: 30px;
+  background-color: transparent;
+  color: #15472A;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mark-complete-btn:hover:not(:disabled) {
+  background-color: #15472A;
+  color: white;
+}
+
+.mark-complete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mark-complete-btn.completed {
+  background-color: #15472A;
+  color: white;
+}
+
+.mark-complete-btn.completed:hover:not(:disabled) {
+  background-color: #0d331f;
+  border-color: #0d331f;
+}
+
+.mark-complete-btn .checkmark {
+  font-size: 1.2rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .lesson-container {
     padding: 100px 1rem 2rem;
   }
-  
+
   .lesson-header h1 {
     font-size: 2rem;
   }
-  
+
   .lesson-content-wrapper {
     padding: 1.5rem;
+  }
+
+  .mark-complete-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

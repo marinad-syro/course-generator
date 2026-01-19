@@ -1,15 +1,130 @@
+.learning-pathway-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 6rem 1rem 2rem;
+  background-color: #E4DCE0;
+  min-height: 100vh;
+}
+
 .learning-pathway-container.blurred {
   filter: blur(5px);
   pointer-events: none;
 }
 
-.learning-pathway-container {
-  padding: 2rem;
+/* Loading State */
+.loading-message {
   text-align: center;
-  margin-top: 5rem;
-  background-color: #E4DCE0;
+  padding: 3rem;
+  font-size: 1.1rem;
+  color: #666;
 }
 
+/* Error State */
+.error-container {
+  text-align: center;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.error-container h1 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.error-container p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.back-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #15472A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #0d331f;
+}
+
+/* Pathway Header */
+.pathway-header {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pathway-header h1 {
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+  color: #15472A;
+  font-family: 'Inria Serif', serif;
+}
+
+.pathway-progress {
+  max-width: 500px;
+}
+
+/* Modules Container */
+.modules-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Module Card */
+.module-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.module-header {
+  margin-bottom: 1rem;
+}
+
+.module-header h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  color: #471532;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.module-progress {
+  max-width: 300px;
+}
+
+/* Lessons List */
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Empty States */
+.no-lessons,
+.no-modules {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Legacy Styles (keeping for compatibility) */
 .pathway-results {
   display: flex;
   flex-direction: column;
@@ -27,16 +142,16 @@
 }
 
 .pathway-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
-    background-color: #ffffff;
-    width: 300px;
-    margin: 0 auto;
-    margin-top: 2rem;
-}   
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  background-color: #ffffff;
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
 
 .pathway-title {
   margin: 15px 0 15px 0;
@@ -67,4 +182,23 @@
 
 .lesson-title a:hover {
   text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .learning-pathway-container {
+    padding: 5rem 0.75rem 1.5rem;
+  }
+
+  .pathway-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .module-card {
+    padding: 1rem;
+  }
+
+  .module-header h3 {
+    font-size: 1.1rem;
+  }
 }

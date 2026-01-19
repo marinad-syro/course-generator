@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from lrn_org.models import Area, Module, Lesson
+from lrn_org.models import Area, Module, Lesson, LessonProgress
 
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +29,11 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = ['id', 'name', 'modules']
+
+
+class LessonProgressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LessonProgress
+        fields = ['id', 'lesson', 'completed', 'completed_at']
+        read_only_fields = ['completed_at']
   

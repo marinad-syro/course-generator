@@ -11,6 +11,8 @@ const LessonPage = () => {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [completingLesson, setCompletingLesson] = useState(false);
 
   useEffect(() => {
     if (!lesson) return;
@@ -25,6 +27,14 @@ const LessonPage = () => {
             lesson_id: lesson.id
           });
           setContent(response.data.content);
+
+          // Fetch completion status
+          try {
+            const progressResponse = await api.get(`/lessons/${lesson.id}/progress/`);
+            setIsCompleted(progressResponse.data.completed);
+          } catch {
+            // Ignore progress fetch errors
+          }
         } else {
           // Fallback for legacy or direct navigation without lesson object
           const areaName = typeof area === 'string' ? area : (area?.name || area?.title || '');
@@ -48,6 +58,20 @@ const LessonPage = () => {
 
     fetchLessonContent();
   }, [area, module, lesson]);
+
+  const handleMarkComplete = async () => {
+    if (!lesson?.id || completingLesson) return;
+
+    setCompletingLesson(true);
+    try {
+      const response = await api.post(`/lessons/${lesson.id}/complete/`);
+      setIsCompleted(response.data.completed);
+    } catch (err) {
+      console.error('Failed to mark lesson complete:', err);
+    } finally {
+      setCompletingLesson(false);
+    }
+  };
 
   if (!lesson) {
     return (
@@ -99,9 +123,31 @@ const LessonPage = () => {
               </button>
             </div>
           ) : (
-            <div className="lesson-content">
-              <MarkdownRenderer content={content} />
-            </div>
+            <>
+              <div className="lesson-content">
+                <MarkdownRenderer content={content} />
+              </div>
+
+              {lesson?.id && (
+                <div className="lesson-actions">
+                  <button
+                    className={`mark-complete-btn ${isCompleted ? 'completed' : ''}`}
+                    onClick={handleMarkComplete}
+                    disabled={completingLesson}
+                  >
+                    {completingLesson ? (
+                      'Updating...'
+                    ) : isCompleted ? (
+                      <>
+                        <span className="checkmark">✓</span> Completed
+                      </>
+                    ) : (
+                      'Mark as Complete'
+                    )}
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
