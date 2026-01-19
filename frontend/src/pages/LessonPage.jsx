@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
+import MarkdownRenderer from '../Components/MarkdownRenderer';
 import api from '../api';
 import './LessonPage.css';
 
@@ -98,10 +99,9 @@ const LessonPage = () => {
               </button>
             </div>
           ) : (
-            <div 
-              className="lesson-content" 
-              dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br />') }} 
-            />
+            <div className="lesson-content">
+              <MarkdownRenderer content={content} />
+            </div>
           )}
         </div>
       </div>
