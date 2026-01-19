@@ -156,3 +156,6 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),   # or whatever you prefer
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
+
+# Rate limiting settings
+RATELIMIT_VIEW = 'users.views.ratelimit_error_response'

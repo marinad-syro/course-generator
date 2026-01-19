@@ -5,7 +5,17 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from django_ratelimit.decorators import ratelimit
+from django.http import JsonResponse
 from .serializers import UserSerializer
+
+
+def ratelimit_error_response(request, exception):
+    """Return JSON response for rate-limited requests."""
+    return JsonResponse(
+        {"error": "Too many attempts. Please try again later."},
+        status=429
+    )
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -14,6 +24,7 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
+@ratelimit(key='ip', rate='3/m', method='POST', block=True)
 @api_view(['POST'])
 def register_user(request):
     try:
@@ -46,6 +57,7 @@ def register_user(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 @api_view(['POST'])
 def login(request):
     try:
