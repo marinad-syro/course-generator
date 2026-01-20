@@ -197,3 +197,81 @@
   margin-bottom: 5px;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .first-course-page {
+    padding-top: 80px;
+  }
+
+  .bg-ellipse-1,
+  .bg-ellipse-2 {
+    display: none;
+  }
+
+  .content-container {
+    padding: 15px;
+  }
+
+  .explore-box {
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+
+  .explore-box h1 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .explore-input {
+    width: 100%;
+    max-width: 280px;
+    font-size: 16px;
+  }
+
+  .create-course-button {
+    font-size: 18px;
+    padding: 12px 28px;
+  }
+
+  .footer {
+    height: 180px;
+    margin-top: 60px;
+  }
+
+  .footer-logo {
+    left: 20px;
+    font-size: 22px;
+  }
+
+  .footer-contact {
+    left: 20px;
+    top: 100px;
+    font-size: 14px;
+  }
+
+  .footer-credits {
+    left: 20px;
+    top: 130px;
+    font-size: 14px;
+  }
+
+  .pathway-results {
+    padding: 0 15px;
+  }
+
+  .pathway-results h2 {
+    font-size: 20px;
+  }
+
+  .module h3 {
+    font-size: 18px;
+  }
+
+  .error-message {
+    margin: 15px;
+    font-size: 14px;
+  }
+}
+

@@ -94,3 +94,41 @@
 .create-pathway-button:active {
   transform: translateY(0);
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .pathways-list-container {
+    padding: 90px 1rem 2rem 1rem;
+  }
+
+  .pathways-list-container h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pathways-list li {
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+
+  .pathways-list a {
+    font-size: 1.1rem;
+  }
+
+  .no-pathways {
+    padding: 30px 20px;
+    min-height: 250px;
+    margin-top: 40px;
+    border-radius: 20px;
+  }
+
+  .no-pathways p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .create-pathway-button {
+    font-size: 1rem;
+    padding: 12px 28px;
+  }
+}

@@ -73,3 +73,19 @@
   color: #0d2e1a;
   text-decoration: none;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .signup-box {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .signup-box h2 {
+    font-size: 1.25rem;
+  }
+
+  .signup-box input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}

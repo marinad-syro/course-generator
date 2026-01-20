@@ -11,4 +11,13 @@
   align-items: center;
   flex-grow: 1;
   padding-top: 120px; /* To account for the fixed navbar */
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .signup-container {
+    padding-top: 80px;
+  }
 }

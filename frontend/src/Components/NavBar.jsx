@@ -5,6 +5,7 @@ import './NavBar.css';
 export default function Navbar() {
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(!!localStorage.getItem('access_token'));
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     // Update auth state when it changes
@@ -16,23 +17,38 @@ export default function Navbar() {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
+  // Close menu when clicking outside or on a link
+  const closeMenu = () => setMenuOpen(false);
+
   const handleSignOut = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     setAuthenticated(false);
+    setMenuOpen(false);
     navigate('/');
   };
 
   return (
     <header className="navigation">
       <Link to="/" className="logo">Sopheo</Link>
-      <nav className="nav-links">
-        <Link to="/feedback" className="nav-link">
+
+      <button
+        className={`menu-toggle ${menuOpen ? 'open' : ''}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+      </button>
+
+      <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
+        <Link to="/feedback" className="nav-link" onClick={closeMenu}>
           Feedback
         </Link>
         {authenticated ? (
           <>
-            <Link to="/my-pathways" className="nav-link">
+            <Link to="/my-pathways" className="nav-link" onClick={closeMenu}>
               My Pathways
             </Link>
             <button
@@ -43,7 +59,7 @@ export default function Navbar() {
             </button>
           </>
         ) : (
-          <Link to="/signin" className="nav-link">
+          <Link to="/signin" className="nav-link" onClick={closeMenu}>
             Sign In
           </Link>
         )}

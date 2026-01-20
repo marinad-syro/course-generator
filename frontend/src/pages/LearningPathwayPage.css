@@ -187,18 +187,62 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .learning-pathway-container {
-    padding: 5rem 0.75rem 1.5rem;
+    padding: 80px 0.75rem 1.5rem;
+  }
+
+  .pathway-header {
+    padding: 1rem;
+    margin-bottom: 1rem;
   }
 
   .pathway-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .pathway-progress {
+    max-width: 100%;
   }
 
   .module-card {
     padding: 1rem;
+    border-radius: 10px;
   }
 
   .module-header h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
+  }
+
+  .module-progress {
+    max-width: 100%;
+  }
+
+  .error-container {
+    margin: 0 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .error-container h1 {
+    font-size: 1.25rem;
+  }
+
+  /* Legacy styles mobile fixes */
+  .module {
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    margin: 0.75rem 0;
+  }
+
+  .pathway-container {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .pathway-title {
+    font-size: 1.5rem;
+  }
+
+  .module .module-title {
+    font-size: 1.2rem;
   }
 }
