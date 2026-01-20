@@ -37,7 +37,8 @@ const SignupComponent = ({ onSignupSuccess, onSwitchToSignin }) => {
   return (
     <div className="signup-overlay">
       <div className="signup-box">
-        <h2>Sign Up to Unlock Your Course</h2>
+        <h2>Sign Up to Create a Course</h2>
+        <p>You need to have a free account where the course will be saved.</p>
         <form onSubmit={handleSignup}>
           <label htmlFor="signup-email">Email</label>
           <input
