@@ -69,9 +69,7 @@ const MyPathwaysPage = () => {
     <div className="my-pathways-page">
       <NavBar />
       <div className="pathways-container">
-        <div className="pathways-header">
-          <h1>My Learning Pathways</h1>
-        </div>
+    
         
         {loading ? (
           <p>Loading your pathways...</p>
