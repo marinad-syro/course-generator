@@ -98,12 +98,13 @@
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .pathways-list-container {
-    padding: 90px 1rem 2rem 1rem;
+    padding: 75px 1rem 2rem 1rem;
   }
 
   .pathways-list-container h1 {
     font-size: 1.75rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 
   .pathways-list li {

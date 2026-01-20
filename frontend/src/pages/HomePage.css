@@ -223,6 +223,7 @@ body {
   .cta-button {
     position: static;
     margin: 0;
+    align-self: center;
   }
 
   .footer {
