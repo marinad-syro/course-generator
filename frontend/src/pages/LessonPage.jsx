@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import MarkdownRenderer from '../Components/MarkdownRenderer';
 import api from '../api';
@@ -7,6 +7,7 @@ import './LessonPage.css';
 
 const LessonPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { area, module, lesson } = location.state || {};
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
@@ -102,10 +103,15 @@ const LessonPage = () => {
             <span className="area">{typeof area === 'string' ? area : (area?.name || area?.title || 'Area')}</span> • <span className="module">{typeof module === 'string' ? module : (module?.name || module?.title || 'Module')}</span>
           </p>
           <p className="back-link">
-            <Link to="/my-pathways">← Back to My Pathways</Link>
+            <Link
+              to={area?.id ? `/learning-pathway/${area.id}` : '/my-pathways'}
+              state={{ pathway: area }}
+            >
+              ← Back to Course
+            </Link>
           </p>
         </div>
-        
+
         <div className="lesson-content-wrapper">
           {loading ? (
             <div className="loading-state">
@@ -128,8 +134,17 @@ const LessonPage = () => {
                 <MarkdownRenderer content={content} />
               </div>
 
-              {lesson?.id && (
-                <div className="lesson-actions">
+              <div className="lesson-actions">
+                <button
+                  className="back-to-course-btn"
+                  onClick={() => navigate(
+                    area?.id ? `/learning-pathway/${area.id}` : '/my-pathways',
+                    { state: { pathway: area } }
+                  )}
+                >
+                  ← Back to Course
+                </button>
+                {lesson?.id && (
                   <button
                     className={`mark-complete-btn ${isCompleted ? 'completed' : ''}`}
                     onClick={handleMarkComplete}
@@ -145,8 +160,8 @@ const LessonPage = () => {
                       'Mark as Complete'
                     )}
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </>
           )}
         </div>

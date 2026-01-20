@@ -15,9 +15,8 @@ body {
 .landing-page {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 10vh;
   background: #FFF;
-  overflow: hidden;
   padding-top: 20px; /* Match navbar height */
   box-sizing: border-box;
 }
@@ -135,135 +134,6 @@ body {
 }
 
 
-/* Feedback Section */
-.feedback-section {
-  position: relative;
-  width: 100%;
-  text-align: center;
-  margin-top: 20px; /* Further reduced from 40px */
-  padding: 20px 0;
-}
-
-.feedback-heading {
-  font-family: 'Inria Serif', serif;
-  font-size: 64px;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -1.28px;
-  color: #15472A;
-  margin: 0 0 40px 0;
-}
-
-.feedback-intro {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 150%;
-  color: #471532;
-  margin: 0 auto 84px auto;
-  max-width: 452px;
-}
-
-.feedback-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.feedback-card {
-  position: relative;
-  width: 553px;
-  height: 253px;
-  border-radius: 50px;
-  border: 1px solid rgba(217, 217, 217, 1);
-  background: #E4DCE0;
-  box-shadow: 10px 10px 5px -4px rgba(12, 12, 13, 0.22);
-  padding: 32px;
-}
-
-.form-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-
-.feedback-textarea {
-  width: 100%;
-  font-family: 'Inria Serif', serif;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 120%;
-  letter-spacing: -0.48px;
-  color: rgba(30, 30, 30, 1);
-  border: none;
-  background: transparent;
-  outline: none;
-  padding: 8px 0;
-}
-
-
-.feedback-textarea {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 150%;
-  resize: none;
-  height: 80px;
-}
-
-.feedback-textarea::placeholder {
-  color: rgba(30, 30, 30, 0.6);
-}
-
-.submit-button {
-  position: absolute;
-  right: 32px;
-  bottom: 32px;
-  display: flex;
-  padding: 20px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 20px;
-  background: #15472A;
-  box-shadow: 4px 5px 5px 1px rgba(0, 0, 0, 0.40);
-  border: none;
-  font-family: 'Libre Baskerville', serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 150%;
-  color: #FFF;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.submit-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 4px 7px 7px 1px rgba(0, 0, 0, 0.40);
-}
-
-.submit-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.status-message {
-  margin-top: 20px;
-  font-family: 'Libre Baskerville', serif;
-  font-size: 16px;
-  font-weight: 400;
-}
-
-.status-message.success {
-  color: #15472A;
-}
-
-.status-message.error {
-  color: #d32f2f;
-}
-
 /* Footer */
 .footer {
   position: relative; /* Changed from absolute */
@@ -360,13 +230,6 @@ body {
     margin-bottom: 80px;
   }
 
-
-  .feedback-section {
-    position: relative;
-    top: 0px;
-    padding: 0 100px;
-  }
-
   .footer {
     position: relative;
     top: 200px;
@@ -405,20 +268,6 @@ body {
 
   .section-title {
     font-size: 36px;
-  }
-
-  .feedback-section {
-    top: 10px;
-    padding: 0 20px;
-  }
-
-  .feedback-heading {
-    font-size: 36px;
-  }
-
-  .feedback-card {
-    width: 100%;
-    max-width: 500px;
   }
 
   .footer-logo,

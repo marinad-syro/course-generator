@@ -42,7 +42,6 @@ function FirstCoursePage() {
       <div className="content-container">
         <div className="explore-box">
           <h1>What area would you like to explore?</h1>
-          <label htmlFor="explore-area" className="sr-only">Area to explore</label>
           <input 
             id="explore-area"
             name="area"
@@ -66,10 +65,11 @@ function FirstCoursePage() {
         {error && <p className="error-message">{error}</p>}
 
       </div>
-
-      <footer className="course-footer">
-        <h2>Sopheo</h2>
-        <p>Contact: sopheo.contact@gmail.com</p>
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-divider"></div>
+        <div className="footer-logo">Sopheo</div>
+        <div className="footer-contact">Contact: sopheo.contact@gmail.com</div>
       </footer>
     </div>
   );

@@ -137,14 +137,39 @@
   background-color: #0d331f;
 }
 
-/* Mark Complete Button */
+/* Lesson Actions */
 .lesson-actions {
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid #e0e0e0;
   display: flex;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
+
+/* Back to Course Button */
+.back-to-course-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #471532;
+  border-radius: 30px;
+  background-color: transparent;
+  color: #471532;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-to-course-btn:hover {
+  background-color: #471532;
+  color: white;
+}
+
+/* Mark Complete Button */
 
 .mark-complete-btn {
   display: inline-flex;
@@ -199,6 +224,12 @@
     padding: 1.5rem;
   }
 
+  .lesson-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .back-to-course-btn,
   .mark-complete-btn {
     width: 100%;
     justify-content: center;

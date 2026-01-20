@@ -27,13 +27,16 @@ export default function Navbar() {
     <header className="navigation">
       <Link to="/" className="logo">Sopheo</Link>
       <nav className="nav-links">
+        <Link to="/feedback" className="nav-link">
+          Feedback
+        </Link>
         {authenticated ? (
           <>
             <Link to="/my-pathways" className="nav-link">
               My Pathways
             </Link>
-            <button 
-              onClick={handleSignOut} 
+            <button
+              onClick={handleSignOut}
               className="nav-link sign-out-button"
             >
               Sign Out

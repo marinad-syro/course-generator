@@ -7,6 +7,7 @@ import LessonPage from "./pages/LessonPage";
 import SignInPage from "./pages/SignInPage";
 import MyPathwaysPage from "./pages/MyPathwaysPage";
 import SignUpPage from "./pages/SignUpPage";
+import FeedbackPage from "./pages/FeedbackPage";
 import NavBar from "./Components/NavBar";
 
 // Protected route component
@@ -97,6 +98,7 @@ function App() {
           path="/signup"
           element={<SignUpPage onSignIn={() => setIsAuthenticated(true)} />}
         />
+        <Route path="/feedback" element={<FeedbackPage />} />
         </Routes>
       </main>
     </>
