@@ -144,7 +144,7 @@ const MyPathwaysPage = () => {
               boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
             }}
           >
-         Add New Pathway
+         Add New Course
           </button>
           </>
         )}

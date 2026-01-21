@@ -49,7 +49,7 @@ export default function Navbar() {
         {authenticated ? (
           <>
             <Link to="/my-pathways" className="nav-link" onClick={closeMenu}>
-              My Pathways
+              My Courses
             </Link>
             <button
               onClick={handleSignOut}
