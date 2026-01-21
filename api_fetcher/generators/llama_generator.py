@@ -56,7 +56,7 @@ def gen_lesson_content(topic: str, area: str, module: str) -> str:
                   f"Include: (1) an introduction, (2) step-by-step explanation, "
                   f"(3) examples (and code if relevant), (4) a concise summary, and (5) further resources. "
                   f"Keep the style beginner-friendly but informative.",
-        "max_new_tokens": 800,
+        "max_new_tokens": 2048,
         "prompt_template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
     }
 
