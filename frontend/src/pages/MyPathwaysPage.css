@@ -12,7 +12,7 @@
 .pathways-list-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 140px 2rem 2rem 2rem; /* Add padding top for navbar */
+  padding-top: 140px;
   text-align: center;
 }
 
