@@ -3,6 +3,12 @@
   min-height: 100vh;
 }
 
+.pathways-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 2rem 2rem 2rem; /* offset for fixed navbar (80px) + breathing room */
+}
+
 .pathways-list-container {
   max-width: 800px;
   margin: 0 auto;
