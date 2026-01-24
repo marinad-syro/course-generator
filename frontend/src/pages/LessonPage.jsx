@@ -14,6 +14,7 @@ const LessonPage = () => {
   const [error, setError] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
   const [completingLesson, setCompletingLesson] = useState(false);
+  const [nextLesson, setNextLesson] = useState(null);
 
   useEffect(() => {
     if (!lesson) return;
@@ -35,6 +36,19 @@ const LessonPage = () => {
             setIsCompleted(progressResponse.data.completed);
           } catch {
             // Ignore progress fetch errors
+          }
+
+          // Fetch next lesson
+          try {
+            const nextLessonResponse = await api.get(`/lessons/${lesson.id}/next/`);
+            if (nextLessonResponse.data && nextLessonResponse.data.id) {
+              setNextLesson(nextLessonResponse.data);
+            } else {
+              setNextLesson(null);
+            }
+          } catch {
+            // Ignore next lesson fetch errors
+            setNextLesson(null);
           }
         } else {
           // Fallback for legacy or direct navigation without lesson object
@@ -72,6 +86,21 @@ const LessonPage = () => {
     } finally {
       setCompletingLesson(false);
     }
+  };
+
+  const handleNextLesson = () => {
+    if (!nextLesson) return;
+
+    navigate(`/lesson/${nextLesson.id}`, {
+      state: {
+        area: nextLesson.area,
+        module: nextLesson.module,
+        lesson: {
+          id: nextLesson.id,
+          name: nextLesson.name
+        }
+      }
+    });
   };
 
   if (!lesson) {
@@ -159,6 +188,14 @@ const LessonPage = () => {
                     ) : (
                       'Mark as Complete'
                     )}
+                  </button>
+                )}
+                {nextLesson && (
+                  <button
+                    className="next-lesson-btn"
+                    onClick={handleNextLesson}
+                  >
+                    Next Lesson →
                   </button>
                 )}
               </div>

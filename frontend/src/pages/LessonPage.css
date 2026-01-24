@@ -210,6 +210,28 @@
   font-size: 1.2rem;
 }
 
+/* Next Lesson Button */
+
+.next-lesson-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #471532;
+  border-radius: 30px;
+  background-color: #471532;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.next-lesson-btn:hover {
+  background-color: #5c1d42;
+  border-color: #5c1d42;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .lesson-container {
@@ -260,7 +282,8 @@
   }
 
   .back-to-course-btn,
-  .mark-complete-btn {
+  .mark-complete-btn,
+  .next-lesson-btn {
     width: 100%;
     justify-content: center;
     padding: 0.75rem 1.5rem;

@@ -11,6 +11,7 @@ urlpatterns = [
     path('lessons/<int:lesson_id>/', views.lesson_detail_api),
     path('lessons/<int:lesson_id>/progress/', views.get_lesson_progress, name="lesson_progress"),
     path('lessons/<int:lesson_id>/complete/', views.mark_lesson_complete, name="mark_lesson_complete"),
+    path('lessons/<int:lesson_id>/next/', views.get_next_lesson, name="get_next_lesson"),
     path("generate-pathway/", views.generate_pathway, name="generate_pathway"),
     path("generate-pathway-json/", views.generate_pathway_json, name="generate_pathway_json"),
     path("generate-lesson-content/", views.generate_lesson_content, name="generate_lesson_content"),

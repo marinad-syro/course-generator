@@ -373,3 +373,73 @@ def get_area_progress(request, area_id):
         return Response({"error": "Area not found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_next_lesson(request, lesson_id):
+    """Get the next lesson in the sequence (within module or next module)."""
+    try:
+        current_lesson = Lesson.objects.get(id=lesson_id)
+        current_module = current_lesson.module
+        area = current_module.area
+
+        # Get all lessons in the current module ordered by ID
+        lessons_in_module = list(current_module.lessons.all().order_by('id'))
+
+        # Find current lesson index
+        try:
+            current_index = lessons_in_module.index(current_lesson)
+
+            # Check if there's a next lesson in the same module
+            if current_index < len(lessons_in_module) - 1:
+                next_lesson = lessons_in_module[current_index + 1]
+                return Response({
+                    'id': next_lesson.id,
+                    'name': next_lesson.name,
+                    'module': {
+                        'id': current_module.id,
+                        'name': current_module.name
+                    },
+                    'area': {
+                        'id': area.id,
+                        'name': area.name
+                    }
+                })
+        except ValueError:
+            pass
+
+        # If no next lesson in current module, find next module
+        modules_in_area = list(area.modules.all().order_by('id'))
+
+        try:
+            current_module_index = modules_in_area.index(current_module)
+
+            # Look for next module with lessons
+            for i in range(current_module_index + 1, len(modules_in_area)):
+                next_module = modules_in_area[i]
+                first_lesson = next_module.lessons.all().order_by('id').first()
+
+                if first_lesson:
+                    return Response({
+                        'id': first_lesson.id,
+                        'name': first_lesson.name,
+                        'module': {
+                            'id': next_module.id,
+                            'name': next_module.name
+                        },
+                        'area': {
+                            'id': area.id,
+                            'name': area.name
+                        }
+                    })
+        except ValueError:
+            pass
+
+        # No next lesson found
+        return Response({'next_lesson': None})
+
+    except Lesson.DoesNotExist:
+        return Response({"error": "Lesson not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
